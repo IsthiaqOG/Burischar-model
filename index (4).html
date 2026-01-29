@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burischar Model High School | বুড়িশ্চর মডেল হাই স্কুল</title>
+    
+    <!-- Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- AOS for smooth scroll animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
+        
+        :root {
+            --school-navy: #1e3a8a;
+            --school-gold: #fbbf24;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            cursor: none;
+        }
+
+        /* ============================================
+           CUSTOM CURSOR TRAIL
+           ============================================ */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--school-gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            opacity: 0;
+        }
+
+        .custom-cursor.active {
+            opacity: 1;
+        }
+
+        .custom-cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--school-gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.1s ease;
+        }
+
+        /* ============================================
+           SCROLL PROGRESS BAR
+           ============================================ */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--school-gold), #f59e0b, var(--school-gold));
+            background-size: 200% 100%;
+            z-index: 9999;
+            animation: shimmer 2s linear infinite;
+            box-shadow: 0 0 10px var(--school-gold);
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* ============================================
+           SCROLL TO TOP BUTTON
+           ============================================ */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--school-navy), #1e40af);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1000;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 5px 20px rgba(30, 58, 138, 0.4);
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .scroll-to-top:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.6);
+        }
+
+        .scroll-to-top:active {
+            transform: scale(0.95);
+        }
+
+        /* ============================================
+           PARTICLE SYSTEM
+           ============================================ */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(251, 191, 36, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* ============================================
+           ANIMATED GRADIENT BACKGROUNDS
+           ============================================ */
+        .gradient-bg {
+            background: linear-gradient(-45deg, #1e3a8a, #1e40af, #3b82f6, #60a5fa);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Hero Background with Ken Burns Zoom */
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('building.jpg');
+            background-size: cover;
+            background-position: center;
+            animation: kenburns 20s infinite alternate;
+            z-index: -1;
+        }
+
+        @keyframes kenburns {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        /* ============================================
+           GLOWING TEXT EFFECTS
+           ============================================ */
+        .glow-text {
+            animation: glow-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(251, 191, 36, 0.5),
+                             0 0 20px rgba(251, 191, 36, 0.3),
+                             0 0 30px rgba(251, 191, 36, 0.2);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(251, 191, 36, 0.8),
+                             0 0 30px rgba(251, 191, 36, 0.6),
+                             0 0 40px rgba(251, 191, 36, 0.4);
+            }
+        }
+
+        /* ============================================
+           GRADIENT TEXT ANIMATIONS
+           ============================================ */
+        .gradient-text {
+            background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24, #f59e0b);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-flow 3s linear infinite;
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* ============================================
+           NAVIGATION UNDERLINE ANIMATION
+           ============================================ */
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--school-gold);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ============================================
+           MAGNETIC BUTTONS
+           ============================================ */
+        .magnetic-btn {
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer;
+        }
+
+        /* ============================================
+           HOVER GLOW EFFECT
+           ============================================ */
+        .hover-glow {
+            transition: all 0.3s ease;
+        }
+
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.5),
+                        0 0 40px rgba(251, 191, 36, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* ============================================
+           THE "SMOOTHIE" LIFT ANIMATION
+           ============================================ */
+        .hover-lift {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+        }
+
+        .hover-lift:active {
+            transform: translateY(-2px) scale(0.98);
+            transition: all 0.1s ease;
+        }
+
+        /* ============================================
+           3D CARD FLIP EFFECTS
+           ============================================ */
+        .flip-card {
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* ============================================
+           GLASSMORPHISM
+           ============================================ */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* ============================================
+           WAVE ANIMATIONS
+           ============================================ */
+        .wave {
+            animation: wave 3s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* ============================================
+           TILT CARDS
+           ============================================ */
+        .tilt-card {
+            transition: transform 0.3s ease;
+        }
+
+        .tilt-card:hover {
+            transform: perspective(1000px) rotateX(5deg) rotateY(5deg);
+        }
+
+        /* ============================================
+           NEON BORDERS
+           ============================================ */
+        .neon-border {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #fbbf24, #f59e0b, #fbbf24);
+            background-size: 400% 400%;
+            border-radius: inherit;
+            z-index: -1;
+            animation: neon-rotate 3s linear infinite;
+        }
+
+        @keyframes neon-rotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ============================================
+           MORPHING SHAPES
+           ============================================ */
+        .morph-shape {
+            animation: morph 8s ease-in-out infinite;
+        }
+
+        @keyframes morph {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+            50% { border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%; }
+            75% { border-radius: 60% 40% 60% 40% / 70% 30% 50% 60%; }
+        }
+
+        /* ============================================
+           SHINE EFFECT
+           ============================================ */
+        .shine {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shine::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20%, 100% { left: 100%; }
+        }
+
+        /* ============================================
+           SHADOW PULSE
+           ============================================ */
+        .shadow-pulse {
+            animation: shadow-pulse-anim 2s ease-in-out infinite;
+        }
+
+        @keyframes shadow-pulse-anim {
+            0%, 100% {
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+            50% {
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        /* ============================================
+           SPOTLIGHT EFFECT
+           ============================================ */
+        .spotlight {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spotlight::before {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .spotlight:hover::before {
+            opacity: 1;
+        }
+
+        /* Smooth reveal for extra teachers */
+        #extraTeachers {
+            display: none;
+            opacity: 0;
+        }
+
+        #extraTeachers.active {
+            display: grid;
+            opacity: 1;
+            animation: slideFadeUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes slideFadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Logo Pulse Effect */
+        .logo-pulse {
+            animation: pulse-border 2.5s infinite;
+        }
+
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.5); }
+            70% { box-shadow: 0 0 0 12px rgba(251, 191, 36, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+        }
+
+        /* ============================================
+           COUNTER ANIMATION
+           ============================================ */
+        .counter {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ============================================
+           STAGGER ANIMATIONS
+           ============================================ */
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: staggerIn 0.6s ease forwards;
+        }
+
+        @keyframes staggerIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================
+           SUCCESS MODAL
+           ============================================ */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 2rem;
+            text-align: center;
+            transform: scale(0.7);
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            animation: scaleIn 0.5s ease 0.2s both;
+        }
+
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ============================================
+           BORDER ANIMATIONS
+           ============================================ */
+        .border-animate {
+            position: relative;
+        }
+
+        .border-animate::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 2px solid transparent;
+            border-radius: inherit;
+            background: linear-gradient(45deg, transparent, var(--school-gold), transparent) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: border-flow 3s linear infinite;
+        }
+
+        @keyframes border-flow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ============================================
+           RESPONSIVE MOBILE ENHANCEMENTS
+           ============================================ */
+        @media (max-width: 768px) {
+            .counter {
+                font-size: 2rem;
+            }
+            
+            body {
+                cursor: default;
+            }
+            
+            .custom-cursor,
+            .custom-cursor-dot {
+                display: none;
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Teacher Card with Initials */
+        .teacher-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--school-navy), #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 900;
+            color: white;
+            margin: 0 auto 1rem;
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.3);
+        }
+
+        /* Vice Principal Badge */
+        .vp-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #1e3a8a;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(251, 191, 36, 0.3);
+        }
+
+        /* Enhanced Mobile Menu */
+        #mobileMenu {
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        #mobileMenu.active {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="customCursor"></div>
+    <div class="custom-cursor-dot" id="customCursorDot"></div>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-to-top" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-check text-white text-4xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-800 mb-2">Success!</h3>
+            <p class="text-slate-600" id="modalMessage">Your message has been sent successfully.</p>
+            <button onclick="closeModal()" class="mt-6 px-8 py-3 bg-blue-900 text-white rounded-full font-bold hover:bg-blue-800 transition magnetic-btn">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 glass shadow-sm border-b border-white/20">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <!-- Circular Logo -->
+                <div class="w-14 h-14 rounded-full border-2 border-yellow-500 overflow-hidden shadow-sm flex-shrink-0 logo-pulse bg-white morph-shape">
+                    <img src="logo.jpg" alt="Logo" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=BMHS'">
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-bold text-blue-900 leading-tight">Burischar Model High School</h1>
+                    <p class="text-xs text-slate-500 font-medium uppercase tracking-widest">বুড়িশ্চর মডেল হাই স্কুল</p>
+                </div>
+            </div>
+            
+            <div class="hidden lg:flex space-x-8 font-medium items-center">
+                <a href="#home" class="nav-link text-blue-900">Home</a>
+                <a href="#about" class="nav-link text-slate-600 hover:text-blue-900 transition">About</a>
+                <a href="#classes" class="nav-link text-slate-600 hover:text-blue-900 transition">Classes</a>
+                <a href="#teachers" class="nav-link text-slate-600 hover:text-blue-900 transition">Teachers</a>
+                <a href="#facilities" class="nav-link text-slate-600 hover:text-blue-900 transition">Facilities</a>
+                <a href="#contact" class="px-6 py-2.5 bg-blue-900 text-white rounded-full hover:bg-blue-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 magnetic-btn hover-glow">Contact Us</a>
+            </div>
+
+            <button class="lg:hidden text-blue-900 focus:outline-none magnetic-btn" id="menuBtn">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        
+        <div id="mobileMenu" class="lg:hidden bg-white border-t p-6 space-y-4 shadow-xl absolute w-full">
+            <a href="#home" class="block font-medium text-blue-900 hover-glow">Home</a>
+            <a href="#about" class="block font-medium text-slate-600 hover-glow">About Us</a>
+            <a href="#classes" class="block font-medium text-slate-600 hover-glow">Classes</a>
+            <a href="#teachers" class="block font-medium text-slate-600 hover-glow">Teachers</a>
+            <a href="#facilities" class="block font-medium text-slate-600 hover-glow">Facilities</a>
+            <a href="#contact" class="block font-medium text-slate-600 hover-glow">Contact Us</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Particles -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center text-white overflow-hidden">
+        <div class="hero-bg"></div>
+        
+        <!-- Particle System -->
+        <div id="particleContainer"></div>
+
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <div data-aos="fade-up" data-aos-duration="1000">
+                <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight glow-text">
+                    Welcome to<br>
+                    <span class="gradient-text">Burischar Model High School</span>
+                </h1>
+                <p class="text-xl md:text-2xl font-light mb-12 max-w-2xl mx-auto opacity-90 wave">
+                    Shaping young minds since 1999 with excellence, dedication, and innovation
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a href="#about" class="group px-10 py-5 bg-yellow-500 text-blue-900 font-black rounded-full hover:bg-yellow-400 transition-all shadow-2xl inline-flex items-center gap-3 text-lg magnetic-btn neon-border">
+                        <span>Explore More</span>
+                        <i class="fas fa-arrow-right transition-transform group-hover:translate-x-2"></i>
+                    </a>
+                    <a href="#contact" class="px-10 py-5 border-2 border-white text-white font-bold rounded-full hover:bg-white hover:text-blue-900 transition-all shadow-xl glass magnetic-btn">
+                        Get in Touch
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating SVG Shapes -->
+        <div class="absolute bottom-0 left-0 w-full opacity-20">
+            <svg viewBox="0 0 1440 320" class="wave">
+                <path fill="#ffffff" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Animated Statistics Counter -->
+    <section class="py-16 gradient-bg">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="text-center" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="counter mb-2" data-target="26">0</div>
+                    <p class="text-white font-semibold text-sm md:text-base">Years of Excellence</p>
+                </div>
+                <div class="text-center" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="counter mb-2" data-target="500">0</div>
+                    <p class="text-white font-semibold text-sm md:text-base">Happy Students</p>
+                </div>
+                <div class="text-center" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="counter mb-2" data-target="40">0</div>
+                    <p class="text-white font-semibold text-sm md:text-base">Dedicated Teachers</p>
+                </div>
+                <div class="text-center" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="counter mb-2" data-target="100">0</div>
+                    <p class="text-white font-semibold text-sm md:text-base">Success Rate %</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced About Section -->
+    <section id="about" class="py-24 bg-white relative overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
+                <h3 class="text-blue-900 text-sm font-bold uppercase tracking-widest mb-4">Our Story</h3>
+                <h2 class="text-4xl md:text-5xl font-extrabold text-slate-800 mb-6 glow-text">
+                    About <span class="gradient-text">Our School</span>
+                </h2>
+                <p class="text-slate-600 text-lg leading-relaxed">
+                    Since 1999, Burischar Model High School has been a beacon of quality education in Nojumiahat, Burischar. Our commitment to academic excellence, moral values, and holistic development has helped shape thousands of young minds into tomorrow's leaders.
+                </p>
+            </div>
+
+            <!-- Benefits Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+                <div class="p-8 rounded-2xl shine spotlight hover-lift shadow-lg bg-gradient-to-br from-blue-50 to-white border border-blue-100" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-blue-900 text-white rounded-2xl flex items-center justify-center mb-6 text-3xl morph-shape">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-slate-800 mb-3">Academic Excellence</h4>
+                    <p class="text-slate-600">Comprehensive curriculum designed to nurture critical thinking and creativity in every student.</p>
+                </div>
+
+                <div class="p-8 rounded-2xl shine spotlight hover-lift shadow-lg bg-gradient-to-br from-yellow-50 to-white border border-yellow-100" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-yellow-500 text-blue-900 rounded-2xl flex items-center justify-center mb-6 text-3xl morph-shape">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-slate-800 mb-3">Expert Faculty</h4>
+                    <p class="text-slate-600">40+ dedicated teachers committed to providing personalized attention and mentorship.</p>
+                </div>
+
+                <div class="p-8 rounded-2xl shine spotlight hover-lift shadow-lg bg-gradient-to-br from-blue-50 to-white border border-blue-100" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 bg-blue-900 text-white rounded-2xl flex items-center justify-center mb-6 text-3xl morph-shape">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-slate-800 mb-3">100% Success</h4>
+                    <p class="text-slate-600">Proven track record of academic achievements and student success in board examinations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Classes Section with 3D Flip Cards -->
+    <section id="classes" class="py-24 gradient-bg">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+                <h3 class="text-yellow-400 text-sm font-bold uppercase tracking-widest mb-4">Education</h3>
+                <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6">Our <span class="gradient-text">Classes</span></h2>
+                <p class="text-blue-100 text-lg">Comprehensive education from early childhood to secondary level</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Play -->
+                <div class="flip-card h-64" data-aos="flip-left" data-aos-delay="100">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front p-10 bg-white rounded-3xl shadow-xl flex flex-col items-center justify-center border-t-8 border-yellow-500">
+                            <div class="w-20 h-20 bg-yellow-50 text-yellow-600 rounded-full flex items-center justify-center mb-4 text-3xl">
+                                <i class="fas fa-baby"></i>
+                            </div>
+                            <h4 class="text-2xl font-black text-slate-800">Play</h4>
+                        </div>
+                        <div class="flip-card-back p-10 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-3xl shadow-xl flex flex-col items-center justify-center text-white">
+                            <h4 class="text-2xl font-black mb-3">Play Class</h4>
+                            <p class="text-center text-sm">Foundation learning through play-based activities</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nursery -->
+                <div class="flip-card h-64" data-aos="flip-left" data-aos-delay="200">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front p-10 bg-white rounded-3xl shadow-xl flex flex-col items-center justify-center border-t-8 border-blue-900">
+                            <div class="w-20 h-20 bg-blue-50 text-blue-900 rounded-full flex items-center justify-center mb-4 text-3xl">
+                                <i class="fas fa-child"></i>
+                            </div>
+                            <h4 class="text-2xl font-black text-slate-800">Nursery</h4>
+                        </div>
+                        <div class="flip-card-back p-10 bg-gradient-to-br from-blue-900 to-blue-800 rounded-3xl shadow-xl flex flex-col items-center justify-center text-white">
+                            <h4 class="text-2xl font-black mb-3">Nursery</h4>
+                            <p class="text-center text-sm">Building confidence and social skills</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KG -->
+                <div class="flip-card h-64" data-aos="flip-left" data-aos-delay="300">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front p-10 bg-white rounded-3xl shadow-xl flex flex-col items-center justify-center border-t-8 border-yellow-500">
+                            <div class="w-20 h-20 bg-yellow-50 text-yellow-600 rounded-full flex items-center justify-center mb-4 text-3xl">
+                                <i class="fas fa-pencil-alt"></i>
+                            </div>
+                            <h4 class="text-2xl font-black text-slate-800">KG</h4>
+                        </div>
+                        <div class="flip-card-back p-10 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-3xl shadow-xl flex flex-col items-center justify-center text-white">
+                            <h4 class="text-2xl font-black mb-3">Kindergarten</h4>
+                            <p class="text-center text-sm">Early literacy and numeracy development</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class 1-5 -->
+                <div class="flip-card h-64" data-aos="flip-left" data-aos-delay="400">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front p-10 bg-white rounded-3xl shadow-xl flex flex-col items-center justify-center border-t-8 border-blue-900">
+                            <div class="w-20 h-20 bg-blue-50 text-blue-900 rounded-full flex items-center justify-center mb-4 text-3xl">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h4 class="text-2xl font-black text-slate-800">Class 1-5</h4>
+                        </div>
+                        <div class="flip-card-back p-10 bg-gradient-to-br from-blue-900 to-blue-800 rounded-3xl shadow-xl flex flex-col items-center justify-center text-white">
+                            <h4 class="text-2xl font-black mb-3">Primary</h4>
+                            <p class="text-center text-sm">Strong foundation in core subjects</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class 6-10 -->
+                <div class="flip-card h-64" data-aos="flip-left" data-aos-delay="500">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front p-10 bg-white rounded-3xl shadow-xl flex flex-col items-center justify-center border-t-8 border-yellow-500">
+                            <div class="w-20 h-20 bg-yellow-50 text-yellow-600 rounded-full flex items-center justify-center mb-4 text-3xl">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <h4 class="text-2xl font-black text-slate-800">Class 6-10</h4>
+                        </div>
+                        <div class="flip-card-back p-10 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-3xl shadow-xl flex flex-col items-center justify-center text-white">
+                            <h4 class="text-2xl font-black mb-3">Secondary</h4>
+                            <p class="text-center text-sm">Comprehensive preparation for board exams</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Student Testimonials -->
+    <section class="py-24 bg-slate-50 overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+                <h3 class="text-blue-900 text-sm font-bold uppercase tracking-widest mb-4">Testimonials</h3>
+                <h2 class="text-4xl md:text-5xl font-extrabold text-slate-800 mb-6">What Our <span class="gradient-text">Students Say</span></h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-8 bg-white rounded-2xl shadow-lg hover-lift spotlight" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center text-white font-bold text-xl morph-shape">
+                            A
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-slate-800">Arif Rahman</h5>
+                            <p class="text-xs text-slate-500">Class 10 Graduate</p>
+                        </div>
+                    </div>
+                    <div class="text-yellow-500 mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-slate-600 italic">"The teachers here genuinely care about our success. Thanks to their guidance, I achieved excellent results in my SSC exams!"</p>
+                </div>
+
+                <div class="p-8 bg-white rounded-2xl shadow-lg hover-lift spotlight" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-blue-900 font-bold text-xl morph-shape">
+                            S
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-slate-800">Sayma Akhter</h5>
+                            <p class="text-xs text-slate-500">Class 9 Student</p>
+                        </div>
+                    </div>
+                    <div class="text-yellow-500 mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-slate-600 italic">"The computer lab and modern facilities make learning so much more engaging. I'm proud to be part of this school!"</p>
+                </div>
+
+                <div class="p-8 bg-white rounded-2xl shadow-lg hover-lift spotlight" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center text-white font-bold text-xl morph-shape">
+                            R
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-slate-800">Rakib Hasan</h5>
+                            <p class="text-xs text-slate-500">Class 8 Student</p>
+                        </div>
+                    </div>
+                    <div class="text-yellow-500 mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-slate-600 italic">"From sports to studies, this school provides the perfect balance. The playground is amazing and teachers are supportive!"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teachers Section -->
+    <section id="teachers" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+                <h3 class="text-blue-900 text-sm font-bold uppercase tracking-widest mb-4">Our Team</h3>
+                <h2 class="text-4xl md:text-5xl font-extrabold text-slate-800 mb-6 glow-text">Meet Our <span class="gradient-text">Faculty</span></h2>
+                <p class="text-slate-600 text-lg">Dedicated educators committed to nurturing young minds</p>
+            </div>
+
+            <!-- Headmaster -->
+            <div class="max-w-sm mx-auto mb-16" data-aos="zoom-in">
+                <div class="bg-gradient-to-br from-blue-900 to-blue-800 p-10 rounded-3xl text-center shadow-2xl hover-lift border-animate">
+                    <div class="teacher-avatar morph-shape">
+                        BB
+                    </div>
+                    <h5 class="font-black text-2xl text-white mb-2">Babu Babul Chandra Sarkar</h5>
+                    <span class="inline-block bg-yellow-500 text-blue-900 text-xs font-black px-4 py-2 rounded-full uppercase tracking-wider">Headmaster</span>
+                </div>
+            </div>
+
+            <!-- Vice Principals and Teachers Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Vice Principal 1 -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 text-center shadow-lg hover-lift tilt-card shine" data-aos="fade-up" data-aos-delay="100">
+                    <div class="teacher-avatar morph-shape">
+                        MU
+                    </div>
+                    <h5 class="font-bold text-slate-800">Misbah Uddin</h5>
+                    <span class="vp-badge">Vice Principal</span>
+                </div>
+
+                <!-- Vice Principal 2 -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 text-center shadow-lg hover-lift tilt-card shine" data-aos="fade-up" data-aos-delay="200">
+                    <div class="teacher-avatar morph-shape">
+                        SA
+                    </div>
+                    <h5 class="font-bold text-slate-800">Saheda Akter</h5>
+                    <span class="vp-badge">Vice Principal</span>
+                </div>
+
+                <!-- Regular Teachers -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 text-center shadow-lg hover-lift tilt-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="teacher-avatar morph-shape">
+                        SK
+                    </div>
+                    <h5 class="font-bold text-slate-800">Shirin Akter Kanom</h5>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 text-center shadow-lg hover-lift tilt-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="teacher-avatar morph-shape">
+                        PA
+                    </div>
+                    <h5 class="font-bold text-slate-800">Parben Akter</h5>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 text-center shadow-lg hover-lift tilt-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="teacher-avatar morph-shape">
+                        MR
+                    </div>
+                    <h5 class="font-bold text-slate-800">Mamunur Rashid</h5>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 text-center shadow-lg hover-lift tilt-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="teacher-avatar morph-shape">
+                        FU
+                    </div>
+                    <h5 class="font-bold text-slate-800">Farez Uddin</h5>
+                </div>
+            </div>
+
+            <!-- Hidden Extra Teachers -->
+            <div id="extraTeachers" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 text-center shadow-lg hover-lift tilt-card">
+                    <div class="teacher-avatar morph-shape">
+                        MA
+                    </div>
+                    <h5 class="font-bold text-slate-800">Mohsin Alom</h5>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 text-center shadow-lg hover-lift tilt-card">
+                    <div class="teacher-avatar morph-shape">
+                        I
+                    </div>
+                    <h5 class="font-bold text-slate-800">Ismail</h5>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 text-center shadow-lg hover-lift tilt-card">
+                    <div class="teacher-avatar morph-shape">
+                        MD
+                    </div>
+                    <h5 class="font-bold text-slate-800">Munni Rani Devi</h5>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 text-center shadow-lg hover-lift tilt-card">
+                    <div class="teacher-avatar morph-shape">
+                        SD
+                    </div>
+                    <h5 class="font-bold text-slate-800">Shima Das</h5>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 text-center shadow-lg hover-lift tilt-card">
+                    <div class="teacher-avatar morph-shape">
+                        TS
+                    </div>
+                    <h5 class="font-bold text-slate-800">Tumpa Shil</h5>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 text-center shadow-lg hover-lift tilt-card">
+                    <div class="teacher-avatar morph-shape">
+                        MD
+                    </div>
+                    <h5 class="font-bold text-slate-800">Minakki Dev</h5>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 text-center shadow-lg hover-lift tilt-card">
+                    <div class="teacher-avatar morph-shape">
+                        UF
+                    </div>
+                    <h5 class="font-bold text-slate-800">Umme Fatema</h5>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 text-center shadow-lg hover-lift tilt-card">
+                    <div class="teacher-avatar morph-shape">
+                        NA
+                    </div>
+                    <h5 class="font-bold text-slate-800">Nargis Akter</h5>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl border border-slate-100 text-center shadow-lg hover-lift tilt-card">
+                    <div class="teacher-avatar morph-shape">
+                        JB
+                    </div>
+                    <h5 class="font-bold text-slate-800">Jahida Begum</h5>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <button id="showAllBtn" class="group bg-blue-900 text-white px-10 py-4 rounded-full font-bold hover:bg-blue-800 transition-all shadow-xl inline-flex items-center gap-3 active:scale-95 magnetic-btn neon-border">
+                    <span>Show All Faculty</span>
+                    <i class="fas fa-chevron-down transition-transform group-hover:translate-y-1"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Facilities Section -->
+    <section id="facilities" class="py-24 bg-slate-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
+                <h3 class="text-blue-900 text-sm font-bold uppercase tracking-widest mb-4">Campus</h3>
+                <h2 class="text-4xl md:text-5xl font-extrabold text-slate-800 mb-6 glow-text">Our <span class="gradient-text">Facilities</span></h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="p-10 bg-white rounded-3xl shadow-lg hover-lift border-t-8 border-blue-900 spotlight shine" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-900 rounded-2xl flex items-center justify-center mb-6 text-2xl morph-shape">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-slate-800 mb-2">CCTV Security</h4>
+                    <p class="text-slate-600 text-sm mb-4">24/7 HD surveillance for ultimate student safety.</p>
+                    <div class="flex items-center gap-2 text-xs text-blue-900 font-semibold">
+                        <i class="fas fa-check-circle"></i>
+                        <span>HD Quality Monitoring</span>
+                    </div>
+                </div>
+
+                <div class="p-10 bg-white rounded-3xl shadow-lg hover-lift border-t-8 border-yellow-500 spotlight shine" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 bg-yellow-50 text-yellow-600 rounded-2xl flex items-center justify-center mb-6 text-2xl morph-shape">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-slate-800 mb-2">Computer Lab</h4>
+                    <p class="text-slate-600 text-sm mb-4">Empowering digital literacy with high-end tech.</p>
+                    <div class="flex items-center gap-2 text-xs text-yellow-600 font-semibold">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Modern Equipment</span>
+                    </div>
+                </div>
+
+                <div class="p-10 bg-white rounded-3xl shadow-lg hover-lift border-t-8 border-blue-900 spotlight shine" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-14 h-14 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center mb-6 text-2xl morph-shape">
+                        <i class="fas fa-futbol"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-slate-800 mb-2">Playground</h4>
+                    <p class="text-slate-600 text-sm mb-4">A massive area for outdoor sports and games.</p>
+                    <div class="flex items-center gap-2 text-xs text-red-600 font-semibold">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Spacious & Safe</span>
+                    </div>
+                </div>
+
+                <div class="p-10 bg-white rounded-3xl shadow-lg hover-lift border-t-8 border-yellow-500 spotlight shine" data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 text-2xl morph-shape">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-slate-800 mb-2">Transport</h4>
+                    <p class="text-slate-600 text-sm mb-4">Reliable travel across Nojumiahat and nearby.</p>
+                    <div class="flex items-center gap-2 text-xs text-indigo-600 font-semibold">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Safe Commute</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="bg-blue-900 rounded-[3rem] overflow-hidden shadow-2xl flex flex-col lg:flex-row neon-border" data-aos="zoom-in">
+                <div class="lg:w-1/3 bg-blue-800/40 p-12 text-white">
+                    <h2 class="text-3xl font-bold mb-10 tracking-tight glow-text">Contact Office</h2>
+                    <div class="space-y-10">
+                        <div class="flex items-start gap-4 hover-lift">
+                            <i class="fas fa-map-marker-alt text-yellow-500 mt-1"></i>
+                            <p class="text-sm opacity-80 leading-relaxed">Nojumiahat, Burischar, Hathazari, Chottogram, Bangladesh</p>
+                        </div>
+                        <div class="flex items-start gap-4 hover-lift">
+                            <i class="fas fa-phone-alt text-yellow-500 mt-1"></i>
+                            <p class="text-lg font-bold">+8801813957939</p>
+                        </div>
+                        <div class="flex items-start gap-4 hover-lift">
+                            <i class="fas fa-envelope text-yellow-500 mt-1"></i>
+                            <p class="text-sm opacity-80">bkgschool@yahoo.com</p>
+                        </div>
+                    </div>
+
+                    <!-- Social Media Links -->
+                    <div class="mt-12">
+                        <h4 class="text-lg font-bold mb-4 gradient-text">Follow Us</h4>
+                        <div class="flex gap-4">
+                            <a href="#" class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-yellow-500 hover:text-blue-900 transition-all magnetic-btn">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-yellow-500 hover:text-blue-900 transition-all magnetic-btn">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-yellow-500 hover:text-blue-900 transition-all magnetic-btn">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-2/3 p-12 lg:p-16">
+                    <form onsubmit="handleContactSubmit(event)" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <input type="text" id="contactName" required placeholder="Name" class="bg-white/10 border border-white/20 px-6 py-4 rounded-xl text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-500 w-full transition hover-glow">
+                            <input type="email" id="contactEmail" required placeholder="Email" class="bg-white/10 border border-white/20 px-6 py-4 rounded-xl text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-500 w-full transition hover-glow">
+                        </div>
+                        <input type="text" id="contactSubject" required placeholder="Subject" class="bg-white/10 border border-white/20 px-6 py-4 rounded-xl text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-500 w-full transition hover-glow">
+                        <textarea id="contactMessage" required placeholder="Message" rows="5" class="bg-white/10 border border-white/20 px-6 py-4 rounded-xl text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-500 w-full resize-none transition hover-glow"></textarea>
+                        <button type="submit" class="bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-black py-5 rounded-xl w-full shadow-lg transition-transform active:scale-95 uppercase tracking-widest magnetic-btn neon-border">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white pt-20 pb-12 border-t-8 border-yellow-500">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 border-b border-slate-800 pb-16">
+            <div class="space-y-6">
+                <div class="flex items-center gap-3">
+                    <img src="logo.jpg" class="w-12 h-12 rounded-full border-2 border-yellow-500 morph-shape" alt="Logo" onerror="this.src='https://via.placeholder.com/150'">
+                    <h4 class="text-xl font-black">BMHS</h4>
+                </div>
+                <p class="text-slate-400 text-sm font-light">Committed to producing the leaders of tomorrow through top-tier education since 1999.</p>
+                
+                <!-- Social Links -->
+                <div class="flex gap-3">
+                    <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-yellow-500 hover:text-slate-900 transition-all magnetic-btn">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-yellow-500 hover:text-slate-900 transition-all magnetic-btn">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-yellow-500 hover:text-slate-900 transition-all magnetic-btn">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold text-yellow-500 mb-6 uppercase tracking-wider">Links</h4>
+                <ul class="space-y-3 text-slate-400 text-sm">
+                    <li><a href="#home" class="hover:text-yellow-500 transition hover-glow">Home</a></li>
+                    <li><a href="#about" class="hover:text-yellow-500 transition hover-glow">About Us</a></li>
+                    <li><a href="#classes" class="hover:text-yellow-500 transition hover-glow">Our Classes</a></li>
+                    <li><a href="#teachers" class="hover:text-yellow-500 transition hover-glow">Our Teachers</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold text-yellow-500 mb-6 uppercase tracking-wider">Portal</h4>
+                <ul class="space-y-3 text-slate-400 text-sm">
+                    <li><a href="#" class="hover:text-yellow-500 transition hover-glow">Routine</a></li>
+                    <li><a href="#" class="hover:text-yellow-500 transition hover-glow">Results</a></li>
+                    <li><a href="#facilities" class="hover:text-yellow-500 transition hover-glow">Facilities</a></li>
+                    <li><a href="#contact" class="hover:text-yellow-500 transition hover-glow">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold text-yellow-500 mb-6 uppercase tracking-wider">Newsletter</h4>
+                <form onsubmit="handleNewsletterSubmit(event)" class="flex gap-2">
+                    <input type="email" id="newsEmail" required placeholder="Email" class="bg-slate-800 px-4 py-3 rounded-xl text-white text-xs w-full focus:outline-none focus:ring-1 focus:ring-yellow-500 hover-glow">
+                    <button class="bg-yellow-500 text-blue-900 p-3 rounded-xl active:scale-90 transition-transform magnetic-btn"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="container mx-auto px-6 pt-10 text-center md:flex md:justify-between md:items-center">
+            <p class="text-slate-500 text-xs">&copy; 2026 Burischar Model High School. All rights reserved.</p>
+            <p class="text-slate-400 text-sm font-bold mt-4 md:mt-0 uppercase tracking-widest gradient-text">Developed By Isthiaq Hossain</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({ 
+            duration: 800, 
+            once: true,
+            offset: 100
+        });
+
+        // ============================================
+        // CUSTOM CURSOR
+        // ============================================
+        const cursor = document.getElementById('customCursor');
+        const cursorDot = document.getElementById('customCursorDot');
+        
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let dotX = 0, dotY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            cursor.classList.add('active');
+            
+            dotX = mouseX - 4;
+            dotY = mouseY - 4;
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - 10 - cursorX) * 0.1;
+            cursorY += (mouseY - 10 - cursorY) * 0.1;
+            
+            cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+            cursorDot.style.transform = `translate(${dotX}px, ${dotY}px)`;
+            
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // ============================================
+        // SCROLL PROGRESS BAR
+        // ============================================
+        const scrollProgress = document.getElementById('scrollProgress');
+        
+        function updateScrollProgress() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercentage = (scrollTop / scrollHeight) * 100;
+            scrollProgress.style.width = scrollPercentage + '%';
+        }
+
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(updateScrollProgress, 10);
+        });
+
+        // ============================================
+        // SCROLL TO TOP BUTTON
+        // ============================================
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        function checkScrollPosition() {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(checkScrollPosition, 10);
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // ============================================
+        // PARTICLE SYSTEM
+        // ============================================
+        const particleContainer = document.getElementById('particleContainer');
+        
+        function createParticles() {
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particleContainer.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // ============================================
+        // COUNTER ANIMATION
+        // ============================================
+        const counters = document.querySelectorAll('.counter');
+        let counterAnimated = false;
+
+        function animateCounters() {
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000;
+                const increment = target / (duration / 16);
+                let current = 0;
+
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current) + (target === 100 ? '' : '+');
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target + (target === 100 ? '%' : '+');
+                    }
+                };
+                updateCounter();
+            });
+        }
+
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !counterAnimated) {
+                    animateCounters();
+                    counterAnimated = true;
+                }
+            });
+        }, observerOptions);
+
+        if (counters.length > 0) {
+            counterObserver.observe(counters[0].parentElement.parentElement);
+        }
+
+        // ============================================
+        // MAGNETIC BUTTONS
+        // ============================================
+        const magneticButtons = document.querySelectorAll('.magnetic-btn');
+
+        magneticButtons.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0, 0)';
+            });
+        });
+
+        // ============================================
+        // SPOTLIGHT EFFECT
+        // ============================================
+        const spotlightElements = document.querySelectorAll('.spotlight');
+
+        spotlightElements.forEach(element => {
+            element.addEventListener('mousemove', (e) => {
+                const rect = element.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const before = window.getComputedStyle(element, '::before');
+                element.style.setProperty('--x', x + 'px');
+                element.style.setProperty('--y', y + 'px');
+                
+                if (element.querySelector('::before')) {
+                    element.querySelector('::before').style.left = x - 100 + 'px';
+                    element.querySelector('::before').style.top = y - 100 + 'px';
+                }
+            });
+        });
+
+        // ============================================
+        // MOBILE MENU
+        // ============================================
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking on a link
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                setTimeout(() => {
+                    mobileMenu.classList.add('hidden');
+                }, 400);
+            });
+        });
+
+        // ============================================
+        // SHOW ALL TEACHERS
+        // ============================================
+        const showAllBtn = document.getElementById('showAllBtn');
+        const extraTeachers = document.getElementById('extraTeachers');
+        
+        showAllBtn.addEventListener('click', () => {
+            const isActive = extraTeachers.classList.toggle('active');
+            showAllBtn.querySelector('span').innerText = isActive ? 'Show Less' : 'Show All Faculty';
+            showAllBtn.querySelector('i').classList.toggle('rotate-180');
+            AOS.refresh();
+        });
+
+        // ============================================
+        // MODAL FUNCTIONS
+        // ============================================
+        function showModal(message) {
+            const modal = document.getElementById('successModal');
+            const modalMessage = document.getElementById('modalMessage');
+            modalMessage.textContent = message;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.remove('active');
+        }
+
+        // Close modal on outside click
+        document.getElementById('successModal').addEventListener('click', (e) => {
+            if (e.target.id === 'successModal') {
+                closeModal();
+            }
+        });
+
+        // ============================================
+        // FORM HANDLERS
+        // ============================================
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+            
+            window.location.href = `mailto:bkgschool@yahoo.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nMessage:\n' + message)}`;
+            
+            showModal('Thank you! Your message has been sent successfully.');
+            e.target.reset();
+        }
+
+        function handleNewsletterSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('newsEmail').value;
+            
+            showModal('Thank you for subscribing to our newsletter!');
+            e.target.reset();
+        }
+
+        // ============================================
+        // STAGGER ANIMATIONS FOR LISTS
+        // ============================================
+        const staggerItems = document.querySelectorAll('.stagger-item');
+        staggerItems.forEach((item, index) => {
+            item.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        // ============================================
+        // PERFORMANCE OPTIMIZATION
+        // ============================================
+        // Debounce function for scroll events
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Optimized scroll handler
+        const optimizedScroll = debounce(() => {
+            updateScrollProgress();
+            checkScrollPosition();
+        }, 10);
+
+        window.addEventListener('scroll', optimizedScroll);
+
+        // ============================================
+        // INTERSECTION OBSERVER FOR ANIMATIONS
+        // ============================================
+        const animatedElements = document.querySelectorAll('[data-aos]');
+        
+        const intersectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('aos-animate');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        });
+
+        animatedElements.forEach(element => {
+            intersectionObserver.observe(element);
+        });
+
+        // ============================================
+        // SMOOTH SCROLL FOR ANCHOR LINKS
+        // ============================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // ============================================
+        // LOADING OPTIMIZATION
+        // ============================================
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+
+        // ============================================
+        // DISABLE CURSOR ON MOBILE
+        // ============================================
+        if (window.innerWidth <= 768) {
+            cursor.style.display = 'none';
+            cursorDot.style.display = 'none';
+        }
+
+        // ============================================
+        // RESPONSIVE HANDLING
+        // ============================================
+        window.addEventListener('resize', debounce(() => {
+            if (window.innerWidth <= 768) {
+                cursor.style.display = 'none';
+                cursorDot.style.display = 'none';
+            } else {
+                cursor.style.display = 'block';
+                cursorDot.style.display = 'block';
+            }
+        }, 250));
+
+        console.log('%c🎓 Burischar Model High School', 'font-size: 20px; font-weight: bold; color: #1e3a8a;');
+        console.log('%c✨ Developed with ❤️ by Isthiaq Hossain', 'font-size: 14px; color: #fbbf24;');
+    </script>
+</body>
+</html>
