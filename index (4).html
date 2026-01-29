@@ -1679,6 +1679,23 @@
 
         console.log('%c🎓 Burischar Model High School', 'font-size: 20px; font-weight: bold; color: #1e3a8a;');
         console.log('%c✨ Developed with ❤️ by Isthiaq Hossain', 'font-size: 14px; color: #fbbf24;');
-    </script>
+        <script type="text/javascript">
+    (function (l) {
+      if (l.search[1] === "/") {
+        var decoded = l.search
+          .slice(1)
+          .split("&")
+          .map(function (s) {
+            return s.replace(/~and~/g, "&");
+          })
+          .join("?");
+        window.history.replaceState(
+          null,
+          null,
+          l.pathname.slice(0, -1) + decoded + l.hash
+        );
+      }
+    })(window.location);
+  </script>
 </body>
 </html>
